@@ -1,5 +1,5 @@
-#ifndefSLMC_SLMC_CFG_INCLUDE_ELEMENT_HPP_
-#defineSLMC_SLMC_CFG_INCLUDE_ELEMENT_HPP_
+#ifndef SLMC_SLMC_CFG_INCLUDE_ELEMENT_HPP_
+#define SLMC_SLMC_CFG_INCLUDE_ELEMENT_HPP_
 #include <cmath>
 #include <string>
 #include <map>
@@ -87,4 +87,4 @@ class Element {
     ElementName element_name_{};
 };
 
-#endif //LMC_LMC_CFG_INCLUDE_ELEMENT_HPP_
+#endif // SLMC_SLMC_CFG_INCLUDE_ELEMENT_HPP_

@@ -188,8 +188,6 @@ Config Config::ReadConfig(const std::string &filename) {
   double mass;
   std::string type;
   Vector3d relative_position;
-  size_t neighbor_id;
-  bool neighbor_found = false;
 
   std::vector<std::vector<size_t> > first_neighbors_adjacency_list,
       second_neighbors_adjacency_list, third_neighbors_adjacency_list;
@@ -201,7 +199,8 @@ Config Config::ReadConfig(const std::string &filename) {
   }
   return Config{basis, lattice_vector, atom_vector, true};
 }
-void Config::WriteConfig(const std::string &filename, bool neighbors_info) const {
+void Config::WriteConfig(const std::string &filename) const {
+  Eigen::IOFormat fmt(Eigen::StreamPrecision, Eigen::DontAlignCols, " ", " ", "", "", "", "");
   std::ofstream ofs(filename, std::ofstream::out);
   ofs.precision(16);
   ofs << "Number of particles = " << GetNumAtoms() << '\n';
@@ -222,12 +221,13 @@ void Config::WriteConfig(const std::string &filename, bool neighbors_info) const
     const auto &relative_position = relative_position_matrix_.col(static_cast<int>(lattice_id));
     ofs << atom.GetMass() << '\n'
         << atom.GetElementString() << '\n'
-        << relative_position.transpose() << std::endl;
+        << relative_position.transpose().format(fmt) << std::endl;
   }
 }
 void Config::WriteExtendedConfig(
     const std::string &filename,
     const std::map<std::string, std::vector<double> > &auxiliary_lists) const {
+  Eigen::IOFormat fmt(Eigen::StreamPrecision, Eigen::DontAlignCols, " ", " ", "", "", "", "");
   std::ofstream ofs(filename, std::ofstream::out);
   ofs.precision(16);
   ofs << "Number of particles = " << GetNumAtoms() << '\n';
@@ -243,7 +243,6 @@ void Config::WriteExtendedConfig(
   ofs << "H0(3,3) = " << basis_(2, 2) << " A\n";
   ofs << ".NO_VELOCITY.\n";
   ofs << "entry_count = " << 3 + auxiliary_lists.size() << "\n";
-
   size_t auxiliary_index = 0;
   for (const auto &auxiliary_list: auxiliary_lists) {
     ofs << "auxiliary[" << auxiliary_index << "] = " << auxiliary_list.first << " [reduced unit]\n";
@@ -255,7 +254,7 @@ void Config::WriteExtendedConfig(
         = relative_position_matrix_.col(static_cast<int>(atom_to_lattice_hashmap_.at(atom.GetId())));
     ofs << atom.GetMass() << '\n'
         << atom.GetElementString() << '\n'
-        << relative_position.transpose();
+        << relative_position.transpose().format(fmt);
     for (const auto &auxiliary_list: auxiliary_lists) {
       ofs << ' ' << auxiliary_list.second[it];
     }
@@ -263,46 +262,17 @@ void Config::WriteExtendedConfig(
   }
 }
 
-void Config::ConvertRelativeToCartesian() {
-  cartesian_position_matrix_ = basis_ * relative_position_matrix_;
-}
-void Config::ConvertCartesianToRelative() {
-  relative_position_matrix_ = basis_.inverse() * cartesian_position_matrix_;
-}
 void Config::InitializeNeighborsList(size_t num_atoms) {
   first_neighbors_adjacency_list_.resize(num_atoms);
   for (auto &neighbor_list: first_neighbors_adjacency_list_) {
     neighbor_list.clear();
     neighbor_list.reserve(constants::kNumFirstNearestNeighbors);
   }
-  second_neighbors_adjacency_list_.resize(num_atoms);
-  for (auto &neighbor_list: second_neighbors_adjacency_list_) {
-    neighbor_list.clear();
-    neighbor_list.reserve(constants::kNumSecondNearestNeighbors);
-  }
-  third_neighbors_adjacency_list_.resize(num_atoms);
-  for (auto &neighbor_list: third_neighbors_adjacency_list_) {
-    neighbor_list.clear();
-    neighbor_list.reserve(constants::kNumThirdNearestNeighbors);
-  }
 }
 void Config::UpdateNeighbors() {
 
 }
-void RotateLatticeVector(std::vector<Lattice> &lattice_list,
-                         const Matrix_t &rotation_matrix) {
-  const auto move_distance_after_rotation = Vector_t{0.5, 0.5, 0.5}
-      - (Vector_t{0.5, 0.5, 0.5} * rotation_matrix);
-  for (auto &lattice: lattice_list) {
-    auto relative_position = lattice.GetRelativePosition();
-    // rotate
-    relative_position = relative_position * rotation_matrix;
-    // move to new center
-    relative_position += move_distance_after_rotation;
-    relative_position -= ElementFloor(relative_position);
-    lattice.SetRelativePosition(relative_position);
-  }
-}
+
 
 // Config GenerateClusteredConfigFromExcitingPure(Config config,
 //                                                const std::map<Element, size_t> &solute_atom_count) {

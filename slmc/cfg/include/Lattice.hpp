@@ -1,5 +1,5 @@
-#ifndefSLMC_SLMC_CFG_INCLUDE_LATTICE_HPP_
-#defineSLMC_SLMC_CFG_INCLUDE_LATTICE_HPP_
+#ifndef SLMC_SLMC_CFG_INCLUDE_LATTICE_HPP_
+#define SLMC_SLMC_CFG_INCLUDE_LATTICE_HPP_
 #include "Constants.hpp"
 #include <Eigen/Dense>
 #include <utility>
@@ -65,4 +65,4 @@ inline Vector3d GetRelativeDistanceVectorLattice(const Lattice &first, const Lat
   return relative_distance_vector;
 }
 } // cfg
-#endif //LMC_LMC_CFG_INCLUDE_LATTICE_HPP_
+#endif // SLMC_SLMC_CFG_INCLUDE_LATTICE_HPP_

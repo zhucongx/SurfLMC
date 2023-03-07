@@ -1,5 +1,5 @@
-#ifndefSLMC_SLMC_CFG_INCLUDE_CONFIG_H_
-#defineSLMC_SLMC_CFG_INCLUDE_CONFIG_H_
+#ifndef SLMC_SLMC_CFG_INCLUDE_CONFIG_H_
+#define SLMC_SLMC_CFG_INCLUDE_CONFIG_H_
 #include <vector>
 #include <set>
 #include <map>
@@ -41,7 +41,7 @@ class Config {
 
     /// IO
     static Config ReadConfig(const std::string &filename);
-    void WriteConfig(const std::string &filename, bool neighbors_info) const;
+    void WriteConfig(const std::string &filename) const;
     void WriteExtendedConfig(
         const std::string &filename,
         const std::map<std::string, std::vector<double> >& auxiliary_lists) const;
@@ -50,8 +50,7 @@ class Config {
     [[nodiscard]] const std::unordered_map<size_t, size_t> &GetLatticeToAtomHashmap() const;
     [[nodiscard]] const std::unordered_map<size_t, size_t> &GetAtomToLatticeHashmap() const;
     /// Modify config
-    void ConvertRelativeToCartesian();
-    void ConvertCartesianToRelative();
+
     void InitializeNeighborsList(size_t num_atoms);
     void UpdateNeighbors();
     /// Properties
@@ -66,8 +65,5 @@ class Config {
 
 };
 
-void RotateLatticeVector(std::vector<Lattice> &lattice_list, const Matrix3d &rotation_matrix);
-
-
 } // cfg
-#endif //LMC_LMC_CFG_INCLUDE_CONFIG_H_
+#endif // SLMC_SLMC_CFG_INCLUDE_CONFIG_H_

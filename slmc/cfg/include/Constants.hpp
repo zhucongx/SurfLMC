@@ -1,5 +1,5 @@
-#ifndefSLMC_SLMC_CFG_INCLUDE_CONSTANTS_HPP_
-#defineSLMC_SLMC_CFG_INCLUDE_CONSTANTS_HPP_
+#ifndef SLMC_SLMC_CFG_INCLUDE_CONSTANTS_HPP_
+#define SLMC_SLMC_CFG_INCLUDE_CONSTANTS_HPP_
 
 #include <cmath>
 #include <array>
@@ -30,4 +30,4 @@ constexpr size_t kNumThirdNearestNeighbors = 24;
 constexpr double kBoltzmann = 8.617333262145e-5;
 constexpr double kPrefactor = 1e13;
 } // constants
-#endif //LMC_LMC_CFG_INCLUDE_CONSTANTS_HPP_
+#endif // SLMC_SLMC_CFG_INCLUDE_CONSTANTS_HPP_

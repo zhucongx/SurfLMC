@@ -1,5 +1,5 @@
-#ifndefSLMC_SLMC_CFG_INCLUDE_ATOM_HPP_
-#defineSLMC_SLMC_CFG_INCLUDE_ATOM_HPP_
+#ifndef SLMC_SLMC_CFG_INCLUDE_ATOM_HPP_
+#define SLMC_SLMC_CFG_INCLUDE_ATOM_HPP_
 #include <fstream>
 #include <map>
 
@@ -39,4 +39,4 @@ struct Atom {
 };
 } // cfg
 
-#endif //LMC_LMC_CFG_INCLUDE_ATOM_HPP_
+#endif // SLMC_SLMC_CFG_INCLUDE_ATOM_HPP_
