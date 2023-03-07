@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.14)
 ########################################## SET  COMPILERS ##########################################
 #set(CMAKE_C_COMPILER "gcc") # {gcc, clang, mpicc, icc, gcc-12}
 #set(CMAKE_CXX_COMPILER "g++") # {g++, clang++, mpic/xx, icpc, g++-12}
-project(LMC)
+project(SLMC)
 set(CMAKE_CXX_STANDARD 20)
 ############################################ SET  PATHS ############################################
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
@@ -60,23 +60,23 @@ ENDIF()
 #target_link_libraries(${PROJECT_NAME} PUBLIC cfg gen ansys mc)
 ############################################ BUILD SRCS ############################################
 file(GLOB PROJECT_SRC
-        ${PROJECT_SOURCE_DIR}/lmc/cfg/src/*.cpp
-        ${PROJECT_SOURCE_DIR}/lmc/pred/src/*.cpp
-        ${PROJECT_SOURCE_DIR}/lmc/mc/src/*.cpp
-        ${PROJECT_SOURCE_DIR}/lmc/ansys/src/*.cpp
-        ${PROJECT_SOURCE_DIR}/lmc/api/src/*.cpp
+        ${PROJECT_SOURCE_DIR}/slmc/cfg/src/*.cpp
+#        ${PROJECT_SOURCE_DIR}/lmc/pred/src/*.cpp
+#        ${PROJECT_SOURCE_DIR}/lmc/mc/src/*.cpp
+#        ${PROJECT_SOURCE_DIR}/lmc/ansys/src/*.cpp
+#        ${PROJECT_SOURCE_DIR}/lmc/api/src/*.cpp
         )
 set(PROJECT_INCLUDE
-        ${PROJECT_SOURCE_DIR}/lmc/cfg/include
-        ${PROJECT_SOURCE_DIR}/lmc/pred/include
-        ${PROJECT_SOURCE_DIR}/lmc/mc/include
-        ${PROJECT_SOURCE_DIR}/lmc/ansys/include
-        ${PROJECT_SOURCE_DIR}/lmc/api/include
+        ${PROJECT_SOURCE_DIR}/slmc/cfg/include
+#        ${PROJECT_SOURCE_DIR}/lmc/pred/include
+#        ${PROJECT_SOURCE_DIR}/lmc/mc/include
+#        ${PROJECT_SOURCE_DIR}/lmc/ansys/include
+#        ${PROJECT_SOURCE_DIR}/lmc/api/include
         )
 
-add_executable(${PROJECT_NAME} LMC_Main.cpp ${PROJECT_SRC})
+add_executable(${PROJECT_NAME} SLMC_Main.cpp ${PROJECT_SRC})
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_INCLUDE})
-set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "lmc.exe")
+set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "slmc.exe")
 ############################################# PKGCONFIG ############################################
 #find_package(PkgConfig)
 #pkg_check_modules(EIGEN3 REQUIRED eigen3)

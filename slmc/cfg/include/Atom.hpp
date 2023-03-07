@@ -1,10 +1,9 @@
-#ifndef LMC_LMC_CFG_INCLUDE_ATOM_HPP_
-#define LMC_LMC_CFG_INCLUDE_ATOM_HPP_
+#ifndefSLMC_SLMC_CFG_INCLUDE_ATOM_HPP_
+#defineSLMC_SLMC_CFG_INCLUDE_ATOM_HPP_
 #include <fstream>
 #include <map>
 
 #include "Element.hpp"
-#include "VectorMatrix.hpp"
 namespace cfg {
 struct Atom {
 
