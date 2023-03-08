@@ -39,6 +39,7 @@ class Config {
     void ChangeAtomElementTypeAtAtom(size_t atom_id, Element element);
     void ChangeAtomElementTypeAtLattice(size_t lattice_id, Element element);
     /// IO
+    void WritePoscar(const std::string &filename) const;
     static Config ReadConfig(const std::string &filename);
     void WriteConfig(const std::string &filename) const;
     void WriteExtendedConfig(
