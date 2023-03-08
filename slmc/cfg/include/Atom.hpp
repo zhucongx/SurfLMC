@@ -28,6 +28,9 @@ struct Atom {
       return element_.GetMass();
     }
     /// Setter
+    void SetId(size_t id) {
+      id_ = id;
+    }
     void SetElement(const Element &element) {
       element_ = element;
     }

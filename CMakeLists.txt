@@ -61,14 +61,14 @@ ENDIF()
 ############################################ BUILD SRCS ############################################
 file(GLOB PROJECT_SRC
         ${PROJECT_SOURCE_DIR}/slmc/cfg/src/*.cpp
-#        ${PROJECT_SOURCE_DIR}/lmc/pred/src/*.cpp
+        ${PROJECT_SOURCE_DIR}/slmc/struc/src/*.cpp
 #        ${PROJECT_SOURCE_DIR}/lmc/mc/src/*.cpp
 #        ${PROJECT_SOURCE_DIR}/lmc/ansys/src/*.cpp
 #        ${PROJECT_SOURCE_DIR}/lmc/api/src/*.cpp
         )
 set(PROJECT_INCLUDE
         ${PROJECT_SOURCE_DIR}/slmc/cfg/include
-#        ${PROJECT_SOURCE_DIR}/lmc/pred/include
+        ${PROJECT_SOURCE_DIR}/slmc/struc/include
 #        ${PROJECT_SOURCE_DIR}/lmc/mc/include
 #        ${PROJECT_SOURCE_DIR}/lmc/ansys/include
 #        ${PROJECT_SOURCE_DIR}/lmc/api/include

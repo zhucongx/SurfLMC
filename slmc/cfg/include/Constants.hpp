@@ -9,25 +9,18 @@ constexpr double kEpsilon = 1e-8;
 
 
 namespace constants {
-constexpr double kLatticeConstant = 4.046;
-constexpr double kFirstNearestNeighborsCutoff = 3.5;
-constexpr double kSecondNearestNeighborsCutoff = 4.8;
-constexpr double kThirdNearestNeighborsCutoff = 5.3;
-// length between fourth nearest neighbors is double of length of first nearest neighbors
-constexpr double kNearNeighborsCutoff = kThirdNearestNeighborsCutoff;
+constexpr double kHexagonalLatticeConstant = 3.19; // Angstrom
+constexpr double kLatticeLayerDistance = 2.60; // Angstrom
 
-constexpr size_t kNumThirdNearestSetSizeOfPair = 60;
-constexpr size_t kNumThirdNearestSetSizeOfSite = 1 + 12 + 6 + 24;
-
-constexpr size_t kNumFirstNearestNeighbors = 12;
-constexpr size_t kNumSecondNearestNeighbors = 6;
-constexpr size_t kNumThirdNearestNeighbors = 24;
+constexpr size_t kNumFirstNearestNeighbors = 4;
+constexpr size_t kNumSecondNearestNeighbors = 12;
 
 
+constexpr double kFirstNearestNeighborsCutoff = 2; // 1.95 Ga_N bond length
+constexpr double kSecondNearestNeighborsCutoff = 3.2; // 3.18 Ga_Ga bond length
 
 
-
-constexpr double kBoltzmann = 8.617333262145e-5;
+constexpr double kBoltzmann = 8.617333262145e-5; // eV/K
 constexpr double kPrefactor = 1e13;
 } // constants
 #endif // SLMC_SLMC_CFG_INCLUDE_CONSTANTS_HPP_

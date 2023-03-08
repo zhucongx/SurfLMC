@@ -18,7 +18,9 @@ Config::Config(Matrix3d basis,
       atom_vector_(std::move(atom_vector)) {
 
   if (lattice_vector.size() != atom_vector_.size()) {
-    throw std::runtime_error("Lattice vector and atom vector size do not match");
+    throw std::runtime_error("Lattice vector and atom vector size do not match, lattice_vector.size() = " +
+                             std::to_string(lattice_vector.size()) + ", atom_vector_.size() = " +
+                             std::to_string(atom_vector_.size()));
   }
   relative_position_matrix_ = Matrix3Xd(3, static_cast<int>(lattice_vector.size()));
   cartesian_position_matrix_ = Matrix3Xd(3, static_cast<int>(lattice_vector.size()));

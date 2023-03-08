@@ -2,9 +2,9 @@
 #include "Element.hpp"
 #include "Lattice.hpp"
 #include "Config.h"
+#include "Structure.h"
 int main(int argc, char *argv[]) {
-  auto config = cfg::Config::ReadConfig("zincblende.cfg");
-
-  config.WriteConfig("zincblende_out.cfg");
+  cfg::Config config = cfg::CreateLayers(1, 1, "ABABABCABC");
+  config.WriteConfig("out.cfg");
   return 0;
 }
