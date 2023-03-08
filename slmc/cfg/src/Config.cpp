@@ -19,8 +19,8 @@ Config::Config(Matrix3d basis,
 
   if (lattice_vector.size() != atom_vector_.size()) {
     throw std::runtime_error("Lattice vector and atom vector size do not match, lattice_vector.size() = " +
-                             std::to_string(lattice_vector.size()) + ", atom_vector_.size() = " +
-                             std::to_string(atom_vector_.size()));
+        std::to_string(lattice_vector.size()) + ", atom_vector_.size() = " +
+        std::to_string(atom_vector_.size()));
   }
   relative_position_matrix_ = Matrix3Xd(3, static_cast<int>(lattice_vector.size()));
   cartesian_position_matrix_ = Matrix3Xd(3, static_cast<int>(lattice_vector.size()));
@@ -132,6 +132,38 @@ void Config::ChangeAtomElementTypeAtAtom(size_t atom_id, Element element) {
 void Config::ChangeAtomElementTypeAtLattice(size_t lattice_id, Element element) {
   atom_vector_.at(lattice_to_atom_hashmap_.at(lattice_id)).SetElement(element);
 }
+void Config::WritePoscar(const std::string &filename) const {
+  Eigen::IOFormat fmt(Eigen::StreamPrecision, Eigen::DontAlignCols, " ", "\n", "", "", "", "");
+  std::ofstream ofs(filename, std::ofstream::out);
+  ofs.precision(16);
+  ofs << "POSCAR comments" << '\n';
+  ofs << "1\n";
+  ofs << basis_.format(fmt) << '\n';
+  auto element_atom_id_map = GetElementAtomIdVectorMap();
+
+  std::ostringstream ele_oss, count_oss;
+  for (const auto &[element, atom_id_vector]: element_atom_id_map) {
+    if (element == ElementName::X) {
+      continue;
+    }
+    ele_oss << element.GetString() << ' ';
+    count_oss << atom_id_vector.size() << ' ';
+  }
+  ofs << ele_oss.str() << '\n'
+      << count_oss.str() << '\n';
+  ofs << "Direct\n";
+  for (const auto &[element, atom_id_vector]: element_atom_id_map) {
+    if (element == ElementName::X) {
+      continue;
+    }
+    for (auto atom_id: atom_id_vector) {
+      const auto &relative_position =
+          relative_position_matrix_.col(static_cast<int>( atom_to_lattice_hashmap_.at(atom_id)));
+
+      ofs << relative_position.transpose().format(fmt) << '\n';
+    }
+  }
+}
 Config Config::ReadConfig(const std::string &filename) {
   std::ifstream ifs(filename, std::ifstream::in);
   if (!ifs.is_open()) {
@@ -202,7 +234,7 @@ Config Config::ReadConfig(const std::string &filename) {
   return Config{basis, lattice_vector, atom_vector, true};
 }
 void Config::WriteConfig(const std::string &filename) const {
-  Eigen::IOFormat fmt(Eigen::StreamPrecision, Eigen::DontAlignCols, " ", " ", "", "", "", "");
+  Eigen::IOFormat fmt(Eigen::StreamPrecision, Eigen::DontAlignCols, " ", "\n", "", "", "", "");
   std::ofstream ofs(filename, std::ofstream::out);
   ofs.precision(16);
   ofs << "Number of particles = " << GetNumAtoms() << '\n';
@@ -229,7 +261,7 @@ void Config::WriteConfig(const std::string &filename) const {
 void Config::WriteExtendedConfig(
     const std::string &filename,
     const std::map<std::string, std::vector<double> > &auxiliary_lists) const {
-  Eigen::IOFormat fmt(Eigen::StreamPrecision, Eigen::DontAlignCols, " ", " ", "", "", "", "");
+  Eigen::IOFormat fmt(Eigen::StreamPrecision, Eigen::DontAlignCols, " ", "\n", "", "", "", "");
   std::ofstream ofs(filename, std::ofstream::out);
   ofs.precision(16);
   ofs << "Number of particles = " << GetNumAtoms() << '\n';
