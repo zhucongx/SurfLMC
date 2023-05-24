@@ -9,8 +9,8 @@ constexpr double kEpsilon = 1e-8;
 
 
 namespace constants {
-constexpr double kHexagonalLatticeConstant = 3.19; // Angstrom
-constexpr double kLatticeLayerDistance = 2.60; // Angstrom
+constexpr double kHexagonalLatticeConstant = 3.21; // Angstrom
+constexpr double kLatticeLayerDistance = 2.62; // Angstrom
 
 constexpr size_t kNumFirstNearestNeighbors = 4;
 constexpr size_t kNumSecondNearestNeighbors = 12;
