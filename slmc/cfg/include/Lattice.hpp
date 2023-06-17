@@ -6,6 +6,7 @@
 using Eigen::Matrix3d;
 using Eigen::Vector3d;
 using Eigen::Vector3i;
+using Eigen::Array3d;
 namespace cfg {
 
 class Lattice {
