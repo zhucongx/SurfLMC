@@ -6,7 +6,7 @@
 int main(int argc, char *argv[]) {
   cfg::Config config;
 
-  config = cfg::CreateOrthLayers(2, 2, "AB");
+  config = cfg::CreateOrthLayers(7, 7, "CBABABABABABABAB");
   config.WriteConfig("GaN.cfg");
   config.WritePoscar("POSCAR");
 
