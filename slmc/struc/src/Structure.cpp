@@ -262,6 +262,51 @@ cfg::Config CreateOrthLayers(size_t n_x, size_t ny, const std::string &layers_ty
   size_t n_layers = layers_type.size();
   Matrix3d basis{{static_cast<double>(n_x) * constants::kHexagonalLatticeConstant * 2, 0, 0},
                  {0, static_cast<double>(ny) * constants::kHexagonalLatticeConstant * std::sqrt(3), 0},
+                 {0, 0, static_cast<double>(n_layers) * constants::kLatticeLayerDistance}};
+  // {0, 0, static_cast<double>(n_layers) * constants::kLatticeLayerDistance}};
+  auto inverse_basis = basis.inverse();
+  std::vector<Lattice> lattice_vector;
+  lattice_vector.reserve(n_x * ny * 2 * n_layers);
+  std::vector<Atom> atom_vector;
+  atom_vector.reserve(n_x * ny * 2 * n_layers);
+  for (size_t layer_index = 0; layer_index < n_layers; ++layer_index) {
+    switch (layers_type[layer_index]) {
+      case 'A': {
+        auto [lattice, atom] = CreateOneOrthLayerA(n_x, ny, layer_index);
+        lattice_vector.insert(lattice_vector.end(), lattice.begin(), lattice.end());
+        atom_vector.insert(atom_vector.end(), atom.begin(), atom.end());
+        break;
+      }
+      case 'B': {
+        auto [lattice, atom] = CreateOneOrthLayerB(n_x, ny, layer_index);
+        lattice_vector.insert(lattice_vector.end(), lattice.begin(), lattice.end());
+        atom_vector.insert(atom_vector.end(), atom.begin(), atom.end());
+        break;
+      }
+      case 'C': {
+        auto [lattice, atom] = CreateOneOrthLayerC(n_x, ny, layer_index);
+        lattice_vector.insert(lattice_vector.end(), lattice.begin(), lattice.end());
+        atom_vector.insert(atom_vector.end(), atom.begin(), atom.end());
+        break;
+      }
+      default: {
+        throw std::runtime_error("Unknown layer type");
+      }
+    }
+  }
+  for (size_t i = 0; i < lattice_vector.size(); ++i) {
+    lattice_vector[i].SetId(i);
+    lattice_vector[i].SetRelativePosition(inverse_basis * lattice_vector[i].GetCartesianPosition());
+  }
+  for (size_t i = 0; i < atom_vector.size(); ++i) {
+    atom_vector[i].SetId(i);
+  }
+  return Config{basis, lattice_vector, atom_vector, false};
+}
+cfg::Config CreateOrthLayersSlab(size_t n_x, size_t ny, const std::string &layers_type) {
+  size_t n_layers = layers_type.size();
+  Matrix3d basis{{static_cast<double>(n_x) * constants::kHexagonalLatticeConstant * 2, 0, 0},
+                 {0, static_cast<double>(ny) * constants::kHexagonalLatticeConstant * std::sqrt(3), 0},
                  {0, 0, static_cast<double>(n_layers + 2) * constants::kLatticeLayerDistance}};
   // {0, 0, static_cast<double>(n_layers) * constants::kLatticeLayerDistance}};
   auto inverse_basis = basis.inverse();
@@ -303,5 +348,4 @@ cfg::Config CreateOrthLayers(size_t n_x, size_t ny, const std::string &layers_ty
   }
   return Config{basis, lattice_vector, atom_vector, false};
 }
-
 } // cfg

@@ -13,6 +13,7 @@ std::pair<std::vector<Lattice>, std::vector<Atom> > CreateOneOrthLayerB(size_t n
 std::pair<std::vector<Lattice>, std::vector<Atom> > CreateOneOrthLayerC(size_t n_x, size_t n_y, size_t layer_index);
 cfg::Config CreateLayers(size_t n_x, size_t ny, const std::string &layers_type);
 cfg::Config CreateOrthLayers(size_t n_x, size_t ny, const std::string &layers_type);
+cfg::Config CreateOrthLayersSlab(size_t n_x, size_t ny, const std::string &layers_type);
 
 } // cfg
 
